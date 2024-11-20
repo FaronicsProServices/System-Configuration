@@ -3,13 +3,13 @@ Scripts to customize system settings and user experience.
 
 Subcategories:
 
-•	UI and Personalization
+•	UI and Personalization:
 	Add/Remove Chrome Managed Bookmarks
 	Change Lock Screen Wallpaper
 	Implement Interactive Logon Messages
 
-•	Remote Assistance
+•	Remote Assistance:
 	Enable/Disable Remote Assistance
 
-•	System Icons
+•	System Icons:
 	Disable/Enable System Icons (Clock, Network, Action Center)
