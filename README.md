@@ -13,3 +13,6 @@ Subcategories:
 
 •	System Icons:
 	Disable/Enable System Icons (Clock, Network, Action Center)
+
+•	Shortcuts:
+	Disable/Enable Keyboard Shortcuts (Window and Edge)
