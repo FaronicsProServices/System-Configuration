@@ -1,38 +1,47 @@
-$httpsImageUrl = "https://github.com/FaronicsProServices/System-Configuration/blob/main/UIAndPersonalization/Apply-Specific-Wallpaper/Public%20computer%20background%20rules.png?raw=true"
-$localFilePath = "$([Environment]::GetFolderPath('MyPictures'))\PublicComputerBackground.png"
+# 1. Get the currently logged-in user from active session
+$activeSession = (quser | Where-Object { $_ -match "Active" }) -split '\s+'
+$loggedInUser = $activeSession[0]
 
-# Ensure destination folder exists
-if (!(Test-Path -Path (Split-Path -Path $localFilePath))) {
-    New-Item -ItemType Directory -Path (Split-Path -Path $localFilePath) -Force | Out-Null
-}
-
-# Download the image
+# 2. Resolve SID of the user
 try {
-    Invoke-WebRequest -Uri $httpsImageUrl -OutFile $localFilePath
-    Write-Host "Image downloaded to: $localFilePath"
+    $userSID = (New-Object System.Security.Principal.NTAccount($loggedInUser)).Translate([System.Security.Principal.SecurityIdentifier]).Value
 } catch {
-    Write-Host "ERROR: Failed to download image. $_"
+    Write-Host "Could not find SID for user: $loggedInUser"
     exit
 }
 
-# Set wallpaper registry key
-Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name Wallpaper -Value $localFilePath
+# 3. Define paths
+$wallpaperUrl = "https://github.com/FaronicsProServices/System-Configuration/blob/main/UIAndPersonalization/Apply-Specific-Wallpaper/Public%20computer%20background%20rules.png?raw=true"
+$userPictures = "C:\Users\$loggedInUser\Pictures"
+$wallpaperPath = "$userPictures\PublicComputerBackground.png"
 
-# Apply the wallpaper using user32.dll
-Add-Type @"
-using System.Runtime.InteropServices;
-public class Wallpaper {
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-}
-"@
-$result = [Wallpaper]::SystemParametersInfo(20, 0, $localFilePath, 3)
-
-if ($result) {
-    Write-Host "✅ Wallpaper applied for: $env:USERNAME"
-} else {
-    Write-Host "❌ Failed to apply wallpaper visually. Check file path and permissions."
+# 4. Create folder if missing
+if (!(Test-Path -Path $userPictures)) {
+    New-Item -ItemType Directory -Path $userPictures -Force | Out-Null
 }
 
-# Force refresh
-Start-Process "rundll32.exe" -ArgumentList "user32.dll,UpdatePerUserSystemParameters" -NoNewWindow
+# 5. Download the wallpaper
+try {
+    Invoke-WebRequest -Uri $wallpaperUrl -OutFile $wallpaperPath -UseBasicParsing
+    Write-Host "Image downloaded to: $wallpaperPath"
+} catch {
+    Write-Host "Failed to download image. $_"
+    exit
+}
+
+# 6. Update user’s registry hive for wallpaper
+$regPath = "Registry::HKEY_USERS\$userSID\Control Panel\Desktop"
+Set-ItemProperty -Path $regPath -Name Wallpaper -Value $wallpaperPath
+Set-ItemProperty -Path $regPath -Name WallpaperStyle -Value "2"  # 2 = Stretched
+Set-ItemProperty -Path $regPath -Name TileWallpaper -Value "0"
+
+# 7. Create a scheduled task as that user to refresh wallpaper
+$taskName = "ApplyWallpaperOnce"
+$script = "rundll32.exe user32.dll,UpdatePerUserSystemParameters"
+$taskCmd = "schtasks /Create /TN $taskName /TR `"$script`" /SC ONCE /ST 00:00 /RU $loggedInUser /RL HIGHEST /F"
+Invoke-Expression $taskCmd
+schtasks /Run /TN $taskName
+Start-Sleep -Seconds 5
+schtasks /Delete /TN $taskName /F
+
+Write-Host "Wallpaper should now be visible for $loggedInUser"
