@@ -16,7 +16,7 @@ try {
 }
 
 # Define the specific username (adjust accordingly)
-$specifiedUser = "CONTOSO\user1"
+$specifiedUser = "CONTOSO\admin2"
 
 # Get SID for the specified user
 function Get-UserSID([string]$username) { 
