@@ -1,4 +1,4 @@
-$httpsImageUrl = "https://raw.githubusercontent.com/YourGitHubUsername/YourRepo/main/PublicComputerBackground.png"
+$httpsImageUrl = "https://raw.githubusercontent.com/FaronicsProServices/System-Configuration/refs/heads/main/UIAndPersonalization/Apply-Specific-Wallpaper/Public%20computer%20background%20rules.png"
 $localFilePath = "C:\wallpaper\PublicComputerBackground.png"
 
 # Ensure the destination folder exists
