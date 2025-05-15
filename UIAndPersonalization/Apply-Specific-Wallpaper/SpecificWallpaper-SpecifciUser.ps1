@@ -16,7 +16,7 @@ try {
 }
 
 # Define the specific username (adjust accordingly)
-$specifiedUser = "username"
+$specifiedUser = "username" # For a domain user specify: domain\username and for workgroup just enter the username: Username1.
 
 # Get SID for the specified user
 function Get-UserSID([string]$username) { 
