@@ -51,4 +51,4 @@ schtasks /Run /TN $taskName
 Start-Sleep -Seconds 5
 schtasks /Delete /TN $taskName /F
 
-Write-Host "Wallpaper applied for $loggedInUser"
+Write-Host "Log out and log back in to apply the wallpaper change."
