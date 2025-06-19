@@ -47,5 +47,4 @@ This script applies a specific wallpaper for a **user you specify manually** ins
 
 ---
 
-## 📁 Example Folder Structure
 
