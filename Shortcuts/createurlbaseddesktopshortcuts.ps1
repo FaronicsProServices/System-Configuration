@@ -5,7 +5,7 @@
 $PublicDesktop = "$env:PUBLIC\Desktop"
 
 # Choose browser (Chrome preferred, fallback to Edge)
-$chrome = "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
+$chrome = "${env:Program Files\Google\Chrome\Application\chrome.exe"
 $edge = "${env:ProgramFiles(x86)}\Microsoft\Edge\Application\msedge.exe"
 
 if (Test-Path $chrome) {
