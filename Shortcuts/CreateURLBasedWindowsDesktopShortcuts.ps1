@@ -19,7 +19,7 @@ if (Test-Path $chrome) {
 }
 
 # Define shortcuts
-# ➕ To add more shortcuts, insert new entries below in the same format:
+# To add more shortcuts, insert new entries below in the same format:
 # @{ Name = "Name to Display"; URL = "https://example.com" },
 $webLinks = @(
     @{ Name = "Azure Portal"; URL = "https://portal.azure.com" },
@@ -44,4 +44,4 @@ foreach ($link in $webLinks) {
     $Shortcut.Save()
 }
 
-Write-Host "✅ Chrome/Edge shortcuts created on Public Desktop with correct icons."
+Write-Host "Chrome/Edge shortcuts created on Public Desktop with correct icons."
