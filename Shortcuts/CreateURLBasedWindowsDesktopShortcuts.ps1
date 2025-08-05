@@ -14,7 +14,7 @@ if (Test-Path $chrome) {
 } elseif (Test-Path $edge) {
     $browserPath = $edge
 } else {
-    Write-Error "❌ Chrome or Edge not found on this system."
+    Write-Error "Chrome or Edge not found on this system."
     exit 1
 }
 
