@@ -23,7 +23,7 @@ if (Test-Path $chrome) {
 # @{ Name = "Name to Display"; URL = "https://example.com" },
 $webLinks = @(
     @{ Name = "Apply to PCC"; URL = "https://www.pima.edu/admission/apply-to-pima/index.html" },
-    @{ Name = "AZTransfer"; URL = "https://mail.google.com" },
+    @{ Name = "AZTransfer"; URL = "https://aztransfer.com/" },
     @{ Name = "FSA ID"; URL = "https://studentaid.gov/fsa-id/create-account/launch" },
     @{ Name = "FAFSA - Apply for Aid"; URL = "https://studentaid.gov/h/apply-for-aid/fafsa" }
 )
